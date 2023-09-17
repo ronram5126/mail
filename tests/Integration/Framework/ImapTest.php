@@ -21,6 +21,7 @@
 
 namespace OCA\Mail\Tests\Integration\Framework;
 
+use OCP\Server;
 use Horde_Imap_Client;
 use Horde_Imap_Client_Data_Fetch;
 use Horde_Imap_Client_Fetch_Query;
@@ -298,7 +299,7 @@ trait ImapTest {
 	protected function getClient(?MailAccount $account): Horde_Imap_Client_Socket {
 		if ($account !== null) {
 			/** @var IMAPClientFactory $clientFactory */
-			$clientFactory = \OC::$server->query(IMAPClientFactory::class);
+			$clientFactory = Server::get(IMAPClientFactory::class);
 			$client = $clientFactory->getClient(new Account($account));
 		} else {
 			$client = $this->getTestClient();

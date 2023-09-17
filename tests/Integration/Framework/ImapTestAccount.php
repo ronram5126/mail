@@ -21,6 +21,7 @@
 
 namespace OCA\Mail\Tests\Integration\Framework;
 
+use OCP\Server;
 use OC;
 use OCA\Mail\Account;
 use OCA\Mail\Db\MailAccount;
@@ -43,7 +44,7 @@ trait ImapTestAccount {
 	 */
 	public function createTestAccount(string $userId = null) {
 		/* @var $accountService AccountService */
-		$accountService = OC::$server->query(AccountService::class);
+		$accountService = Server::get(AccountService::class);
 
 		$mailAccount = new MailAccount();
 		$mailAccount->setUserId($userId ?? $this->getTestAccountUserId());
@@ -63,7 +64,7 @@ trait ImapTestAccount {
 		$acc = $accountService->save($mailAccount);
 
 		/** @var MailboxSync $mbSync */
-		$mbSync = OC::$server->query(MailboxSync::class);
+		$mbSync = Server::get(MailboxSync::class);
 		$mbSync->sync(new Account($mailAccount), new NullLogger());
 
 		return $acc;

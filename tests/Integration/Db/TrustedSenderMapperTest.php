@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Mail\Tests\Integration\Db;
 
+use OCP\Server;
 use ChristophWurst\Nextcloud\Testing\DatabaseTransaction;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use ChristophWurst\Nextcloud\Testing\TestUser;
@@ -48,7 +49,7 @@ class TrustedSenderMapperTest extends TestCase {
 		parent::setUp();
 
 		/** @var IDBConnection $db */
-		$this->db = \OC::$server->get(IDBConnection::class);
+		$this->db = Server::get(IDBConnection::class);
 		$this->user = $this->createTestUser();
 
 		$this->mapper = new TrustedSenderMapper(

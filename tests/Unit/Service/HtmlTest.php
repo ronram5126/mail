@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Mail\Tests\Unit\Service;
 
+use OCP\Server;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC;
 use OCA\Mail\Service\Html;
@@ -37,8 +38,8 @@ class HtmlTest extends TestCase {
 	 * @param $text
 	 */
 	public function testLinkDetection(string $expected, string $text) {
-		$urlGenerator = OC::$server->get(IURLGenerator::class);
-		$request = OC::$server->get(IRequest::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$request = Server::get(IRequest::class);
 
 		$html = new Html($urlGenerator, $request);
 		$withLinks = $html->convertLinks($text);
@@ -98,7 +99,7 @@ class HtmlTest extends TestCase {
 			->method('imagePath')
 			->with('mail', 'blocked-image.png')
 			->willReturn($blockedUrl);
-		$request = OC::$server->get(IRequest::class);
+		$request = Server::get(IRequest::class);
 
 		$styleSheet = implode(' ', [
 			'big { background-image: url(https://tracker.com/script.png); }',

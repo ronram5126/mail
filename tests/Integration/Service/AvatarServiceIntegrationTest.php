@@ -24,9 +24,9 @@
 
 namespace OCA\Mail\Tests\Integration\Service;
 
+use OCP\Server;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use ChristophWurst\Nextcloud\Testing\TestUser;
-use OC;
 use OCA\Mail\Contracts\IAvatarService;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -40,7 +40,7 @@ class AvatarServiceIntegrationTest extends TestCase {
 
 	private function clearCache() {
 		/* @var $cacheFactory ICacheFactory */
-		$cacheFactory = OC::$server->query(ICacheFactory::class);
+		$cacheFactory = Server::get(ICacheFactory::class);
 		/* @var $cache ICache */
 		$cache = $cacheFactory->createDistributed('mail.avatars');
 		$cache->clear();
@@ -50,7 +50,7 @@ class AvatarServiceIntegrationTest extends TestCase {
 		parent::setUp();
 
 		$this->clearCache();
-		$this->service = OC::$server->query(IAvatarService::class);
+		$this->service = Server::get(IAvatarService::class);
 	}
 
 	public function testJansGravatar() {

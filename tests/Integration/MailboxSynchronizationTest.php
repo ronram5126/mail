@@ -23,9 +23,9 @@ declare(strict_types=1);
 
 namespace OCA\Mail\Tests\Integration;
 
+use OCP\Server;
 use Horde_Imap_Client;
 use Horde_Imap_Client_Socket;
-use OC;
 use OCA\Mail\Account;
 use OCA\Mail\Contracts\IMailManager;
 use OCA\Mail\Controller\MailboxesController;
@@ -53,11 +53,11 @@ class MailboxSynchronizationTest extends TestCase {
 
 		$this->foldersController = new MailboxesController(
 			'mail',
-			OC::$server->get(IRequest::class),
-			OC::$server->get(AccountService::class),
+			Server::get(IRequest::class),
+			Server::get(AccountService::class),
 			$this->getTestAccountUserId(),
-			OC::$server->get(IMailManager::class),
-			OC::$server->get(SyncService::class)
+			Server::get(IMailManager::class),
+			Server::get(SyncService::class)
 		);
 
 		$this->account = $this->createTestAccount('user12345');
@@ -71,7 +71,7 @@ class MailboxSynchronizationTest extends TestCase {
 
 	public function testSyncEmptyMailbox() {
 		/** @var IMailManager $mailManager */
-		$mailManager = OC::$server->get(IMailManager::class);
+		$mailManager = Server::get(IMailManager::class);
 		$mailBoxes = $mailManager->getMailboxes(new Account($this->account));
 		$inbox = null;
 		foreach ($mailBoxes as $mailBox) {
@@ -81,7 +81,7 @@ class MailboxSynchronizationTest extends TestCase {
 			}
 		}
 		/** @var SyncService $syncService */
-		$syncService = OC::$server->query(SyncService::class);
+		$syncService = Server::get(SyncService::class);
 		$syncService->syncMailbox(
 			new Account($this->account),
 			$inbox,
@@ -107,9 +107,9 @@ class MailboxSynchronizationTest extends TestCase {
 
 	public function testSyncNewMessage() {
 		/** @var SyncService $syncService */
-		$syncService = OC::$server->get(SyncService::class);
+		$syncService = Server::get(SyncService::class);
 		/** @var IMailManager $mailManager */
-		$mailManager = OC::$server->get(IMailManager::class);
+		$mailManager = Server::get(IMailManager::class);
 		$mailBoxes = $mailManager->getMailboxes(new Account($this->account));
 		$inbox = null;
 		foreach ($mailBoxes as $mailBox) {
@@ -147,7 +147,7 @@ class MailboxSynchronizationTest extends TestCase {
 
 	public function testSyncChangedMessage() {
 		/** @var SyncService $syncService */
-		$syncService = OC::$server->get(SyncService::class);
+		$syncService = Server::get(SyncService::class);
 		$mailbox = 'INBOX';
 		$message = $this->getMessageBuilder()
 			->from('ralph@buffington@domain.tld')
@@ -155,7 +155,7 @@ class MailboxSynchronizationTest extends TestCase {
 			->finish();
 		$uid = $this->saveMessage($mailbox, $message, $this->account);
 		/** @var IMailManager $mailManager */
-		$mailManager = OC::$server->get(IMailManager::class);
+		$mailManager = Server::get(IMailManager::class);
 		$mailBoxes = $mailManager->getMailboxes(new Account($this->account));
 		$inbox = null;
 		foreach ($mailBoxes as $mailBox) {
@@ -194,7 +194,7 @@ class MailboxSynchronizationTest extends TestCase {
 			->finish();
 		$uid = $this->saveMessage($mailbox, $message, $this->account);
 		/** @var IMailManager $mailManager */
-		$mailManager = OC::$server->get(IMailManager::class);
+		$mailManager = Server::get(IMailManager::class);
 		$mailBoxes = $mailManager->getMailboxes(new Account($this->account));
 		$inbox = null;
 		foreach ($mailBoxes as $mailBox) {
@@ -204,7 +204,7 @@ class MailboxSynchronizationTest extends TestCase {
 			}
 		}
 		/** @var SyncService $syncService */
-		$syncService = OC::$server->get(SyncService::class);
+		$syncService = Server::get(SyncService::class);
 		$syncService->syncMailbox(
 			new Account($this->account),
 			$inbox,
