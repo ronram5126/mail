@@ -54,6 +54,12 @@
 			"OCA\\Mail\\": "lib/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"OCA\\Mail\\Utils\\Rector\\": "utils/rector/src",
+			"OCA\\Mail\\Utils\\Tests\\": "utils/rector/tests"
+		}
+	},
 	"scripts": {
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
