@@ -10,6 +10,7 @@ return static function (RectorConfig $rectorConfig): void {
 	$rectorConfig->indent('	', 1);
 
 	$rectorConfig->rule(\OCA\Mail\Utils\Rector\Rector\OcServerGetToOcpServerGet::class);
+	$rectorConfig->rule(\OCA\Mail\Utils\Rector\Rector\OcServerGettersToOcpServerGet::class);
 	$rectorConfig->rule(\OCA\Mail\Utils\Rector\Rector\OcServerQueryToOcpServerGet::class);
 
 	$rectorConfig->paths([

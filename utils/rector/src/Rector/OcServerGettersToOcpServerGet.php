@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace OCA\Mail\Utils\Rector\Rector;
 
+use OCP\Security\ICrypto;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-class OcServerGetToOcpServerGet extends AbstractRector {
+class OcServerGettersToOcpServerGet extends AbstractRector {
 
 	public function getRuleDefinition(): RuleDefinition {
 		return new RuleDefinition(
-			'Change \\OC::$server->get* to \\OCP\\Server::get', [
+			'Change method calls from set* to change*.', [
 				new CodeSample(
-					'\OC::$server->get(\OCP\IUserSession::class);',
-					'\OCP\Server::get(\OCP\IUserSession::class);'
+					'\OC::$server->getCrypto();',
+					'\OCP\Server::get(\OCP\Security\ICrypto::class);'
 				),
 			]
 		);
@@ -33,13 +34,16 @@ class OcServerGetToOcpServerGet extends AbstractRector {
 	public function refactor(Node $node) {
 		if ($node->var instanceof Node\Expr\StaticPropertyFetch
 			&& $node->var->class->toString() === \OC::class
-			&& $node->var->name->toString() === 'server'
-			&& $this->getName($node->name) === 'get') {
-			return new Node\Expr\StaticCall(
-				new Node\Name\FullyQualified(\OCP\Server::class),
-				'get',
-				$node->args,
-			);
+			&& $node->var->name->toString() === 'server') {
+			match ($this->getName($node->name)) {
+				'getCrypto' => new Node\Expr\StaticCall(
+					new Node\Name\FullyQualified(\OCP\Server::class),
+					'get',
+					[ICrypto::class],
+				),
+				'getSession' => abc(),
+				default => null,
+			};
 		}
 		return null;
 	}
