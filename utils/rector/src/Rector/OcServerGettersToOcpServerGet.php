@@ -35,7 +35,7 @@ class OcServerGettersToOcpServerGet extends AbstractRector {
 		if ($node->var instanceof Node\Expr\StaticPropertyFetch
 			&& $node->var->class->toString() === \OC::class
 			&& $node->var->name->toString() === 'server') {
-			match ($this->getName($node->name)) {
+			return match ($this->getName($node->name)) {
 				'getCrypto' => new Node\Expr\StaticCall(
 					new Node\Name\FullyQualified(\OCP\Server::class),
 					'get',
