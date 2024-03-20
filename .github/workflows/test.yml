@@ -53,6 +53,7 @@ jobs:
       if: ${{ always() && matrix.php-versions == '8.0' }}
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        root_dir: ./nextcloud/apps/mail
         file: ./nextcloud/apps/mail/tests/clover.unit.xml
         flags: unittests
         fail_ci_if_error: true
