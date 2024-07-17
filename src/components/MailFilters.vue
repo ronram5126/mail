@@ -4,29 +4,29 @@
 -->
 <template>
 	<div class="section">
-	<ul>
-		<NcListItem
-			v-for="filter in filters"
-			v-bind:key="filter.uuid"
-			:name="filter.name"
-			:compact="true">
+		<ul>
+			<NcListItem v-for="filter in filters"
+				v-bind:key="filter.uuid"
+				:name="filter.name"
+				:compact="true"
+				@click="updateFilter(filter)">
+				<template #icon>
+					<IconCheck :size="20" />
+				</template>
+			</NcListItem>
+		</ul>
+		<NcButton class="app-settings-button"
+				  type="secondary"
+				  :aria-label="t('mail', 'New filter')"
+				  @click.prevent.stop="createFilter">
 			<template #icon>
-				<IconCheck :size="20" />
+				<IconLock :size="16" />
 			</template>
-		</NcListItem>
-	</ul>
-	<NcButton class="app-settings-button"
-			  type="secondary"
-			  :aria-label="t('mail', 'New filter')"
-			  @click.prevent.stop="createFilter">
-		<template #icon>
-			<IconLock :size="16" />
-		</template>
-		{{ t('mail', 'New filter') }}
-	</NcButton>
-	<MailFilterModal v-if="showModal"
-					 :filter="currentFilter"
-		@close="displayMailFilterModal = false" />
+			{{ t('mail', 'New filter') }}
+		</NcButton>
+		<MailFilterModal v-if="showModal"
+			:filter="currentFilter"
+			@close="this.currentFilter = null; this.showModal = false;" />
 	</div>
 </template>
 
@@ -82,7 +82,7 @@ export default {
 		test4.value = 'bob@acme.org'
 
 		let filter2 = new Filter();
-		filter2.uuid = '1111-1111-1111-1111'
+		filter2.uuid = '2222-2222-2222-2222'
 		filter2.name = 'Filter 2';
 		filter2.tests.push(test3, test3)
 
@@ -122,7 +122,7 @@ export default {
 			this.showModal = true
 		},
 		updateFilter(filter) {
-			this.currentFilter = fiter
+			this.currentFilter = filter
 			this.showModal = true
 		},
 		async saveActiveScript() {

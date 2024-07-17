@@ -3,45 +3,54 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div>
-		<NcModal
+	<NcModal
+		size="large"
+		@close="closeModal"
+		name="Name inside modal">
+		<div class="modal__content">
+			<NcTextField :value.sync="filter.name" id="textField"
+						 label="Filter name"
+						 placeholder="Input with external label" />
 
-			@close="closeModal"
-			name="Name inside modal">
-			<div class="modal__content">
-				<h2>Please enter your name</h2>
-				<div class="form-group">
-					<NcTextField label="First Name" :value.sync="firstName" />
-				</div>
-				<div class="form-group">
-					<NcTextField label="Last Name" :value.sync="lastName" />
-				</div>
-				<div class="form-group">
-					<label for="pizza">What is the most important pizza item?</label>
-					<NcSelect input-id="pizza" :options="['Cheese', 'Tomatos', 'Pineapples']" v-model="pizza" />
-				</div>
-
-				<NcButton
-					:disabled="!firstName || !lastName || !pizza"
-					@click="closeModal"
-					type="primary">
-					Submit
-				</NcButton>
+			<div class="tests">
+				<MailFilterTest v-for="test in filter.tests"
+								:test="test"
+				/>
 			</div>
-		</NcModal>
-	</div>
+
+			<div class="form-group">
+				<NcTextField label="First Name" :value.sync="firstName" />
+			</div>
+			<div class="form-group">
+				<NcTextField label="Last Name" :value.sync="lastName" />
+			</div>
+			<div class="form-group">
+				<label for="pizza">What is the most important pizza item?</label>
+				<NcSelect input-id="pizza" :options="['Cheese', 'Tomatos', 'Pineapples']" v-model="pizza" />
+			</div>
+
+			<NcButton
+				:disabled="!firstName || !lastName || !pizza"
+				@click="closeModal"
+				type="primary">
+				Submit
+			</NcButton>
+		</div>
+	</NcModal>
 </template>
 <script>
-import { ref } from 'vue'
-import {NcButton, NcModal, NcSelect, NcTextField} from "@nextcloud/vue";
+import {NcButton, NcInputField, NcModal, NcSelect, NcTextField} from "@nextcloud/vue";
+import MailFilterTest from "./MailFilterTest.vue";
 
 export default {
-	components: [
+	name: 'MailFilterModal',
+	components: {
+		MailFilterTest,
 		NcModal,
 		NcButton,
 		NcTextField,
 		NcSelect,
-	],
+	},
 	// setup() {
 	// 	return {
 	// 		// modalRef: ref(null),
@@ -73,7 +82,7 @@ export default {
 	}
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .modal__content {
 	margin: 50px;
 }
@@ -87,5 +96,17 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+}
+
+.external-label {
+	display: flex;
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.external-label label {
+	padding-top: 7px;
+	padding-right: 14px;
+	white-space: nowrap;
 }
 </style>
