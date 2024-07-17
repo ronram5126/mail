@@ -4,9 +4,18 @@
  */
 
 export class Test {
+	#id = 0
 	field = ''
 	operator = ''
 	value = ''
+
+	constructor(id) {
+		this.#id = id
+	}
+
+	get id() {
+		return this.#id
+	}
 
 	toSieve() {
 		let script = ''

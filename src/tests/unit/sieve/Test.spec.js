@@ -4,11 +4,12 @@
  */
 
 import {Test} from '../../../sieve/Test.js'
+import {randomId} from "../../../util/randomId";
 
 describe('mail filter', () => {
 	describe('subject', () => {
 		it('match type is', () => {
-			const test = new Test()
+			const test = new Test(1000)
 			test.field = 'subject'
 			test.operator = 'is'
 			test.value = 'Spam Spam'
@@ -19,7 +20,7 @@ describe('mail filter', () => {
 		})
 
 		it('match type contains', () => {
-			const test = new Test()
+			const test = new Test(1000)
 			test.field = 'subject'
 			test.operator = 'contains'
 			test.value = 'Spam Spam'
@@ -32,7 +33,7 @@ describe('mail filter', () => {
 
 	describe('to', () => {
 		it('match type is', () => {
-			const test = new Test()
+			const test = new Test(1000)
 			test.field = 'to'
 			test.operator = 'is'
 			test.value = 'bob@acme.org'
@@ -43,7 +44,7 @@ describe('mail filter', () => {
 		})
 
 		it('match type contains', () => {
-			const test = new Test()
+			const test = new Test(1000)
 			test.field = 'to'
 			test.operator = 'contains'
 			test.value = '@acme.org'

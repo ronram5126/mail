@@ -4,25 +4,37 @@
 -->
 <template>
 	<div class="mail-filter-row">
-		<NcSelect required="true" input-label="Field" input-id="field" :options="['subject', 'to']" :value.sync="test.field" />
-		<NcSelect required="true" input-label="Operator" input-id="operator" :options="['is', 'contains', 'matches']" :value.sync="test.operator" />
+		<NcSelect :required="true" input-label="Field" input-id="field" :options="['subject', 'to']" v-model="test.field" />
+		<NcSelect :required="true" input-label="Operator" input-id="operator" :options="['is', 'contains', 'matches']" v-model="test.operator" />
 		<div class="mail-filter-value">
 			<label for="mail-filter-value-field">Value</label>
-			<NcTextField required="true" id="mail-filter-value-field" label="Value" :label-outside="true" :value.sync="test.value" />
+			<NcTextField :required="true" id="mail-filter-value-field" label="Value" :label-outside="true" :value.sync="test.value" />
 		</div>
-
+		<NcButton
+			aria-label="Delete test"
+			:size="20"
+			type="tertiary-no-background"
+		@click="deleteTest">
+			<template #icon>
+				<DeleteIcon
+					:size="20" />
+			</template>
+		</NcButton>
 	</div>
 </template>
 <script>
-import {NcButton, NcInputField, NcModal, NcSelect, NcTextField} from "@nextcloud/vue";
+import {NcActionButton, NcButton, NcInputField, NcModal, NcSelect, NcTextField} from "@nextcloud/vue";
+import DeleteIcon from "vue-material-design-icons/Delete.vue";
 
 export default {
 	name: 'MailFilterTest',
 	components: {
+		NcActionButton,
 		NcModal,
 		NcButton,
 		NcTextField,
 		NcSelect,
+		DeleteIcon
 	},
 	// setup() {
 	// 	return {
@@ -44,6 +56,9 @@ export default {
 		}
 	},
 	methods: {
+		deleteTest() {
+			this.$emit('delete-test', this.test)
+		},
 		showModal() {
 			this.firstName = ''
 			this.lastName = ''

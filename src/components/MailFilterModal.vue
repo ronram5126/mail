@@ -8,14 +8,26 @@
 		@close="closeModal"
 		name="Name inside modal">
 		<div class="modal__content">
-			<NcTextField :value.sync="filter.name" id="textField"
-						 label="Filter name"
-						 placeholder="Input with external label" />
+			<NcTextField :value.sync="filter.name"
+			 	label="Filter name"
+			 	:required="true"
+			/>
 
 			<div class="tests">
 				<MailFilterTest v-for="test in filter.tests"
+								v-bind:key="test.id"
 								:test="test"
+								v-on:delete-test="deleteTest(test.id)"
 				/>
+				<NcButton class="app-settings-button"
+						  type="secondary"
+						  :aria-label="t('mail', 'New test')"
+						  @click.prevent.stop="createTest">
+					<template #icon>
+						<IconLock :size="16" />
+					</template>
+					{{ t('mail', 'New test') }}
+				</NcButton>
 			</div>
 
 			<div class="form-group">
@@ -41,10 +53,14 @@
 <script>
 import {NcButton, NcInputField, NcModal, NcSelect, NcTextField} from "@nextcloud/vue";
 import MailFilterTest from "./MailFilterTest.vue";
+import IconLock from "vue-material-design-icons/Lock.vue";
+import { Test } from '../sieve/Test'
+import {randomId} from "../util/randomId";
 
 export default {
 	name: 'MailFilterModal',
 	components: {
+		IconLock,
 		MailFilterTest,
 		NcModal,
 		NcButton,
@@ -71,6 +87,12 @@ export default {
 		}
 	},
 	methods: {
+		createTest() {
+			this.filter.createTest()
+		},
+		deleteTest(testId) {
+			this.filter.deleteTest(testId)
+		},
 		showModal() {
 			this.firstName = ''
 			this.lastName = ''

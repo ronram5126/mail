@@ -37,6 +37,7 @@ import { Filter } from '../sieve/Filter'
 import { Test } from '../sieve/Test'
 import IconLock from "vue-material-design-icons/Lock.vue";
 import MailFilterModal from './MailFilterModal.vue'
+import {randomId} from "../util/randomId";
 
 export default {
 	name: 'MailFilters',
@@ -56,33 +57,33 @@ export default {
 		},
 	},
 	data() {
-		let test1 = new Test()
+		let test1 = new Test(randomId())
 		test1.field = 'subject'
 		test1.operator = 'contains'
 		test1.value = 'Hello Hello'
 
-		let test2 = new Test()
+		let test2 = new Test(randomId())
 		test2.field = 'to'
 		test2.operator = 'is'
 		test2.value = 'bob@acme.org'
 
 		let filter1 = new Filter();
-		filter1.uuid = '1111-1111-1111-1111'
+		filter1.id = randomId()
 		filter1.name = 'Filter 1';
 		filter1.tests.push(test1, test2)
 
-		let test3 = new Test()
+		let test3 = new Test(randomId())
 		test3.field = 'subject'
 		test3.operator = 'contains'
 		test3.value = 'Hello Hello'
 
-		let test4 = new Test()
+		let test4 = new Test(randomId())
 		test4.field = 'to'
 		test4.operator = 'is'
 		test4.value = 'bob@acme.org'
 
 		let filter2 = new Filter();
-		filter2.uuid = '2222-2222-2222-2222'
+		filter2.id = randomId()
 		filter2.name = 'Filter 2';
 		filter2.tests.push(test3, test3)
 
