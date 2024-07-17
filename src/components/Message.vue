@@ -113,7 +113,7 @@ export default {
 		replyButtonLabel: {
 			required: true,
 			type: String,
-		}
+		},
 	},
 	computed: {
 		from() {
