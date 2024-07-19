@@ -10,36 +10,35 @@ declare(strict_types=1);
 namespace OCA\Mail\Controller;
 
 use OCA\Mail\AppInfo\Application;
-use OCA\Mail\Contracts\IInternalAddressService;
 use OCA\Mail\Http\JsonResponse;
 use OCA\Mail\Http\TrapError;
+use OCA\Mail\Service\InternalAddressService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
 
-class TrustedSendersController extends Controller {
+class InternalAddressController extends Controller {
 	private ?string $uid;
-	private IInternalAddressService $internalAddressService;
 
-	public function __construct(IRequest $request,
-		?string $UserId,
-		IInternalAddressService $internalAddressService) {
+	public function __construct(IRequest        $request,
+		?string                                 $UserId,
+		private InternalAddressService $internalAddressService) {
 		parent::__construct(Application::APP_ID, $request);
 
-		$this->uid = $UserId;
 		$this->internalAddressService = $internalAddressService;
+		$this->uid = $UserId;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $email
+	 * @param string $address
 	 * @param string $type
 	 * @return JsonResponse
 	 */
 	#[TrapError]
 	public function setAddress(string $address, string $type): JsonResponse {
-		$this->internalAddressService->trust(
+		$this->internalAddressService->add(
 			$this->uid,
 			$address,
 			$type
@@ -51,20 +50,20 @@ class TrustedSendersController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $email
+	 * @param string $address
 	 * @param string $type
 	 * @return JsonResponse
 	 */
 	#[TrapError]
 	public function removeAddress(string $address, string $type): JsonResponse {
-		$this->internalAddressService->trust(
+		$this->internalAddressService->add(
 			$this->uid,
 			$address,
 			$type,
 			false
 		);
 
-		return JsonResponse::success(null);
+		return JsonResponse::success();
 	}
 	/**
 	 * @NoAdminRequired
@@ -73,7 +72,7 @@ class TrustedSendersController extends Controller {
 	 */
 	#[TrapError]
 	public function list(): JsonResponse {
-		$list = $this->internalAddressService->getTrusted(
+		$list = $this->internalAddressService->getInternalAddresses(
 			$this->uid
 		);
 

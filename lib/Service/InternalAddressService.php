@@ -19,15 +19,15 @@ class InternalAddressService implements IInternalAddressService {
 		$this->mapper = $mapper;
 	}
 
-	public function isTrusted(string $uid, string $email): bool {
+	public function isInternal(string $uid, string $address): bool {
 		return $this->mapper->exists(
 			$uid,
-			$email
+			$address
 		);
 	}
 
-	public function trust(string $uid, string $email, string $type, ?bool $trust = true): void {
-		if ($trust && $this->isTrusted($uid, $email)) {
+	public function add(string $uid, string $address, string $type, ?bool $trust = true): void {
+		if ($trust && $this->isInternal($uid, $address)) {
 			// Nothing to do
 			return;
 		}
@@ -35,19 +35,19 @@ class InternalAddressService implements IInternalAddressService {
 		if ($trust) {
 			$this->mapper->create(
 				$uid,
-				$email,
+				$address,
 				$type
 			);
 		} else {
 			$this->mapper->remove(
 				$uid,
-				$email,
+				$address,
 				$type
 			);
 		}
 	}
 
-	public function getTrusted(string $uid): array {
+	public function getInternalAddresses(string $uid): array {
 		return $this->mapper->findAll($uid);
 	}
 }

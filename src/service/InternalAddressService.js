@@ -10,7 +10,7 @@ export async function addInternalAddress(email, type) {
 		email,
 		type,
 	})
-		await axios.put(url)
+	await axios.put(url)
 }
 
 export async function removeInternalAddress(email, type) {
@@ -18,7 +18,7 @@ export async function removeInternalAddress(email, type) {
 		email,
 		type,
 	})
-		await axios.put(url)
+	await axios.put(url)
 }
 
 export async function fetchInternalAdresses() {

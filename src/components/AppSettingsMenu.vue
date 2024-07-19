@@ -112,6 +112,10 @@
 			<NcAppSettingsSection id="trusted-sender" :name="t('mail', 'Trusted senders')">
 				<TrustedSenders />
 			</NcAppSettingsSection>
+			<NcAppSettingsSection id="internal-address" :name="t('mail', 'Internal addresses')">
+				<InternalAddress />
+			</NcAppSettingsSection>
+
 			<NcAppSettingsSection id="gravatar-settings" :name="t('mail', 'Gravatar settings')">
 				<p v-if="loadingAvatarSettings" class="app-settings avatar-settings">
 					<IconLoading :size="16" />
@@ -279,6 +283,7 @@ import HorizontalSplit from 'vue-material-design-icons/ViewSplitHorizontal.vue'
 import Logger from '../logger.js'
 import SmimeCertificateModal from './smime/SmimeCertificateModal.vue'
 import TrustedSenders from './TrustedSenders.vue'
+import InternalAddress from './InternalAddress.vue'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 import { mapGetters } from 'vuex'
 
@@ -286,6 +291,7 @@ export default {
 	name: 'AppSettingsMenu',
 	components: {
 		TrustedSenders,
+		InternalAddress,
 		NcButton,
 		IconEmail,
 		IconAdd,

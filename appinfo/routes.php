@@ -357,16 +357,16 @@ return [
 		],
 		[
 			'name' => 'internal_address#setAddress',
-			'url' => '/api/internalAddress/{email}',
+			'url' => '/api/internalAddress/{address}',
 			'verb' => 'PUT'
 		],
 		[
-			'name' => 'trusted_senders#removeAddress',
-			'url' => '/api/internalAddress/{email}',
+			'name' => 'internal_address#removeAddress',
+			'url' => '/api/internalAddress/{address}',
 			'verb' => 'DELETE'
 		],
 		[
-			'name' => 'trusted_senders#list',
+			'name' => 'internal_address#list',
 			'url' => '/api/internalAddress',
 			'verb' => 'GET'
 		],

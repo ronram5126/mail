@@ -12,13 +12,13 @@ namespace OCA\Mail\Contracts;
 use OCA\Mail\Db\InternalAddress;
 
 interface IInternalAddressService {
-	public function isTrusted(string $uid, string $address): bool;
+	public function isInternal(string $uid, string $address): bool;
 
-	public function trust(string $uid, string $address, string $type, ?bool $trust = true);
+	public function add(string $uid, string $address, string $type, ?bool $trust = true);
 
 	/**
 	 * @param string $uid
 	 * @return InternalAddress[]
 	 */
-	public function getTrusted(string $uid): array;
+	public function getInternalAddresses(string $uid): array;
 }

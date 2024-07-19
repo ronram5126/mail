@@ -20,9 +20,9 @@ class InternalAddressMapper extends QBMapper {
 		parent::__construct($db, 'mail_internal_address');
 	}
 
-    public function exists(string $uid, string $email): bool {
+	public function exists(string $uid, string $address): bool {
 
-		$emailObject = new \Horde_Mail_Rfc822_Address($email);
+		$emailObject = new \Horde_Mail_Rfc822_Address($address);
 		$host = $emailObject->host;
 		$qb = $this->db->getQueryBuilder();
 
@@ -31,11 +31,11 @@ class InternalAddressMapper extends QBMapper {
 			->where(
 				$qb->expr()->orX(
 					$qb->expr()->andX(
-						$qb->expr()->eq('email', $qb->createNamedParameter($email)),
+						$qb->expr()->eq('address', $qb->createNamedParameter($address)),
 						$qb->expr()->eq('type', $qb->createNamedParameter('individual'))
 					),
 					$qb->expr()->andX(
-						$qb->expr()->eq('email', $qb->createNamedParameter($host)),
+						$qb->expr()->eq('address', $qb->createNamedParameter($host)),
 						$qb->expr()->eq('type', $qb->createNamedParameter('domain'))
 					)
 				),
@@ -53,7 +53,7 @@ class InternalAddressMapper extends QBMapper {
 		$insert = $qb->insert($this->getTableName())
 			->values([
 				'user_id' => $qb->createNamedParameter($uid),
-				'email' => $qb->createNamedParameter($address),
+				'address' => $qb->createNamedParameter($address),
 				'type' => $qb->createNamedParameter($type),
 			]);
 
@@ -66,7 +66,7 @@ class InternalAddressMapper extends QBMapper {
 		$delete = $qb->delete($this->getTableName())
 			->where(
 				$qb->expr()->eq('user_id', $qb->createNamedParameter($uid)),
-				$qb->expr()->eq('email', $qb->createNamedParameter($address)),
+				$qb->expr()->eq('address', $qb->createNamedParameter($address)),
 				$qb->expr()->eq('type', $qb->createNamedParameter($type))
 			);
 
@@ -75,7 +75,7 @@ class InternalAddressMapper extends QBMapper {
 
 	/**
 	 * @param string $uid
-	 * @return TrustedSender[]
+	 * @return InternalAddress[]
 	 */
 	public function findAll(string $uid): array {
 		$qb = $this->db->getQueryBuilder();

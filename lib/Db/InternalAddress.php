@@ -31,7 +31,7 @@ class InternalAddress extends Entity implements JsonSerializable {
 	public function jsonSerialize() {
 		return [
 			'id' => $this->id,
-			'email' => $this->address,
+			'address' => $this->address,
 			'uid' => $this->userId,
 			'type' => $this->type,
 		];
