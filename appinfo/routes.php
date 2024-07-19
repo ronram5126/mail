@@ -356,6 +356,21 @@ return [
 			'verb' => 'GET'
 		],
 		[
+			'name' => 'internal_address#setAddress',
+			'url' => '/api/internalAddress/{email}',
+			'verb' => 'PUT'
+		],
+		[
+			'name' => 'trusted_senders#removeAddress',
+			'url' => '/api/internalAddress/{email}',
+			'verb' => 'DELETE'
+		],
+		[
+			'name' => 'trusted_senders#list',
+			'url' => '/api/internalAddress',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'sieve#updateAccount',
 			'url' => '/api/sieve/account/{id}',
 			'verb' => 'PUT'
