@@ -26,7 +26,7 @@ export async function isInternal(address) {
 		address,
 	})
 	const response = await axios.get(url)
-	return response.data.isInternal
+	return response.data.data.isInternal
 }
 
 export async function fetchInternalAdresses() {
