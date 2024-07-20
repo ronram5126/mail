@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="multiselect__tag multiselect__tag--recipient" :title="option.email">
+	<div :class="isInternal?'multiselect__tag multiselect__tag--recipient' :'multiselect__tag multiselect__tag--recipient external'" :title="option.email">
 		<ListItemIcon :no-margin="true"
 			:name="option.label"
 			:url="option.photo"
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { isInternal } from '../service/InternalAddressService'
 import { NcListItemIcon as ListItemIcon } from '@nextcloud/vue'
 import Close from 'vue-material-design-icons/Close.vue'
 export default {
@@ -29,6 +30,16 @@ export default {
 			required: true,
 		},
 	},
+	data() {
+		return {
+			isInternal: true,
+		}
+	},
+	async onMounted() {
+		if (this.$store.getters.getPreference('internal-addresses', 'false') === 'true') {
+			this.isInternal = await isInternal(this.option.email)
+		}
+	},
 	methods: {
 		removeRecipient(option, field) {
 			this.$emit('remove-recipient', option, field)
@@ -38,6 +49,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.external {
+	background-color: var(--color-error) !important;
+	:deep(.option__lineone){
+		color: var(--color-primary-text) !important;
+	}
+}
+
 .multiselect
 	.multiselect__tags
 	.multiselect__tags-wrap

@@ -200,6 +200,7 @@ class PageController extends Controller {
 				'start-mailbox-id' => $this->preferences->getPreference($this->currentUserId, 'start-mailbox-id'),
 				'tag-classified-messages' => $this->classificationSettingsService->isClassificationEnabled($this->currentUserId) ? 'true' : 'false',
 				'follow-up-reminders' => $this->preferences->getPreference($this->currentUserId, 'follow-up-reminders', 'true'),
+				'internal-addresses' => $this->preferences->getPreference($this->currentUserId, 'internal-addresses', 'false'),
 			]);
 		$this->initialStateService->provideInitialState(
 			'prefill_displayName',

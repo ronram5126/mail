@@ -23,9 +23,9 @@ use ReturnTypeWillChange;
  */
 class InternalAddress extends Entity implements JsonSerializable {
 
-	protected string $address;
-	protected string $userId;
-	protected string $type;
+	protected $address ;
+	protected $userId;
+	protected $type;
 
 	#[ReturnTypeWillChange]
 	public function jsonSerialize() {

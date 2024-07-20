@@ -106,6 +106,10 @@ store.commit('savePreference', {
 	key: 'follow-up-reminders',
 	value: getPreferenceFromPage('follow-up-reminders'),
 })
+store.commit('savePreference', {
+	key: 'internal-addresses',
+	value: getPreferenceFromPage('internal-addresses'),
+})
 
 const accountSettings = loadState('mail', 'account-settings')
 const accounts = loadState('mail', 'accounts', [])

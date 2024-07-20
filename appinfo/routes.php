@@ -371,6 +371,11 @@ return [
 			'verb' => 'GET'
 		],
 		[
+			'name' => 'internal_address#isInternal',
+			'url' => '/api/internalAddress/{address}',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'sieve#updateAccount',
 			'url' => '/api/sieve/account/{id}',
 			'verb' => 'PUT'
