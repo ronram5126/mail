@@ -44,8 +44,7 @@
 	"require-dev": {
 		"nextcloud/ocp": "dev-stable26",
 		"psalm/phar": "^5.25.0",
-		"roave/security-advisories": "dev-master",
-		"nextcloud/openapi-extractor": "dev-main"
+		"roave/security-advisories": "dev-master"
 	},
 	"autoload": {
 		"files": [
@@ -76,7 +75,7 @@
 		"test:integration:dev": "phpunit -c tests/phpunit.integration.xml --no-coverage --order-by=defects --stop-on-defect --fail-on-warning --stop-on-error --stop-on-failure",
 		"test:unit": "phpunit -c tests/phpunit.unit.xml --fail-on-warning",
 		"test:unit:dev": "phpunit -c tests/phpunit.unit.xml --no-coverage --order-by=defects --stop-on-defect --fail-on-warning --stop-on-error --stop-on-failure",
-		"openapi": "generate-spec"
+		"openapi": "php vendor/bin/generate-spec"
 	},
 	"extra": {
 		"mozart": {
@@ -89,11 +88,5 @@
 				"gravatarphp/gravatar"
 			]
 		}
-	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/nextcloud/openapi-extractor"
-		}
-	]
+	}
 }
