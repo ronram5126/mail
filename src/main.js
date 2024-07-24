@@ -113,6 +113,7 @@ store.commit('savePreference', {
 
 const accountSettings = loadState('mail', 'account-settings')
 const accounts = loadState('mail', 'accounts', [])
+const internalAddressesList = loadState('mail', 'internal-addresses-list', [])
 const tags = loadState('mail', 'tags', [])
 const outboxMessages = loadState('mail', 'outbox-messages')
 const disableScheduledSend = loadState('mail', 'disable-scheduled-send')
@@ -137,6 +138,7 @@ accounts.map(fixAccountId).forEach((account) => {
 })
 
 tags.forEach(tag => store.commit('addTag', { tag }))
+internalAddressesList.forEach(internalAddress => store.commit('addInternalAddress', internalAddress))
 
 store.commit('setScheduledSendingDisabled', disableScheduledSend)
 store.commit('setSnoozeDisabled', disableSnooze)

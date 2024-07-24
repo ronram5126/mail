@@ -38,13 +38,13 @@ class InternalAddressController extends Controller {
 	 */
 	#[TrapError]
 	public function setAddress(string $address, string $type): JsonResponse {
-		$this->internalAddressService->add(
+		$address = $this->internalAddressService->add(
 			$this->uid,
 			$address,
 			$type
-		);
+		)->jsonSerialize();
 
-		return JsonResponse::success(null, Http::STATUS_CREATED);
+		return JsonResponse::success($address, Http::STATUS_CREATED);
 	}
 
 	/**

@@ -45,13 +45,12 @@
 
 <script>
 
-import { fetchInternalAdresses, removeInternalAddress, addInternalAddress } from '../service/InternalAddressService.js'
 import { NcButton as ButtonVue, NcDialog, NcTextField } from '@nextcloud/vue'
 import prop from 'lodash/fp/prop.js'
 import sortBy from 'lodash/fp/sortBy.js'
 import IconAdd from 'vue-material-design-icons/Plus.vue'
-import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
-import IconCheck from '@mdi/svg/svg/check.svg?raw'
+import IconCancel from '@mdi/svg/svg/cancel.svg'
+import IconCheck from '@mdi/svg/svg/check.svg'
 import logger from '../logger.js'
 import { showError } from '@nextcloud/dialogs'
 
@@ -94,24 +93,21 @@ export default {
 			return sortByAddress(this.list.filter(a => a.type === 'individual'))
 		},
 	},
-	async mounted() {
-		this.list = await fetchInternalAdresses()
+	mounted() {
+		this.list = this.$store.getters.getInternalAddresses
 	},
 	methods: {
 		async removeInternalAddress(sender) {
 			// Remove the item immediately
 			this.list = this.list.filter(s => s.id !== sender.id)
 			try {
-				await removeInternalAddress(
-					sender.email,
-					sender.type,
-				)
+				await this.$store.dispatch('removeInternalAddress', sender.id)
 			} catch (error) {
 				logger.error(`Could not remove internal address ${sender.email}`, {
 					error,
 				})
-				showError(t('mail', 'Could not remove trusted sender {sender}', {
-					sender: sender.email,
+				showError(t('mail', 'Could not remove internal address {sender}', {
+					sender: sender.address,
 				}))
 				// Put the sender back
 				this.list.push(sender)
@@ -120,11 +116,11 @@ export default {
 		async addInternalAddress() {
 			const type = this.checkType()
 			try {
-				await addInternalAddress(
-					this.newAddress,
+				await this.$store.dispatch('addInternalAddress', {
+					address: this.newAddress,
 					type,
-				).then(async () => {
-					this.list = await fetchInternalAdresses()
+				}).then(async () => {
+					this.list = await this.$store.getters.getInternalAddresses()
 					this.newAddress = ''
 					this.openDialog = false
 				})

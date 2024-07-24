@@ -5,20 +5,21 @@
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
-export async function addInternalAddress(email, type) {
-	const url = generateUrl('/apps/mail/api/internalAddress/{email}?type={type}', {
-		email,
+export async function addInternalAddress(address, type) {
+	const url = generateUrl('/apps/mail/api/internalAddress/{address}?type={type}', {
+		address,
 		type,
 	})
-	await axios.put(url)
+	const response = await axios.put(url)
+	return response.data.data
 }
 
-export async function removeInternalAddress(email, type) {
-	const url = generateUrl('/apps/mail/api/internalAddress/{email}?type={type}', {
-		email,
+export async function removeInternalAddress(address, type) {
+	const url = generateUrl('/apps/mail/api/internalAddress/{address}?type={type}', {
+		address,
 		type,
 	})
-	await axios.put(url)
+	await axios.delete(url)
 }
 
 export async function isInternal(address) {

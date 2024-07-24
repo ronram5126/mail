@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Mail\Service;
 
 use OCA\Mail\Contracts\IInternalAddressService;
+use OCA\Mail\Db\InternalAddress;
 use OCA\Mail\Db\InternalAddressMapper;
 
 class InternalAddressService implements IInternalAddressService {
@@ -26,10 +27,10 @@ class InternalAddressService implements IInternalAddressService {
 		);
 	}
 
-	public function add(string $uid, string $address, string $type, ?bool $trust = true): void {
+	public function add(string $uid, string $address, string $type, ?bool $trust = true): ?InternalAddress {
 		if ($trust && $this->isInternal($uid, $address)) {
 			// Nothing to do
-			return;
+			return null;
 		}
 
 		if ($trust) {
@@ -38,6 +39,7 @@ class InternalAddressService implements IInternalAddressService {
 				$address,
 				$type
 			);
+			return $this->getInternalAddress($uid, $address);
 		} else {
 			$this->mapper->remove(
 				$uid,
@@ -45,9 +47,15 @@ class InternalAddressService implements IInternalAddressService {
 				$type
 			);
 		}
+		return null;
 	}
 
 	public function getInternalAddresses(string $uid): array {
 		return $this->mapper->findAll($uid);
 	}
+
+	private function getInternalAddress(string $uid, string $address): ?InternalAddress {
+		return $this->mapper->find($uid, $address);
+	}
+
 }

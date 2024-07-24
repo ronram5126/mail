@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { isInternal } from '../service/InternalAddressService.js'
 import { NcListItemIcon as ListItemIcon } from '@nextcloud/vue'
 import Close from 'vue-material-design-icons/Close.vue'
 export default {
@@ -37,7 +36,7 @@ export default {
 	},
 	async mounted() {
 		if (this.$store.getters.getPreference('internal-addresses', 'false') === 'true') {
-			this.isInternal = await isInternal(this.option.email)
+			this.isInternal = this.$store.getters.isInternalAddress(this.option.email)
 		}
 	},
 	methods: {

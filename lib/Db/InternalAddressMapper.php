@@ -84,4 +84,15 @@ class InternalAddressMapper extends QBMapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
 		return $this->findEntities($select);
 	}
+
+	public function find(string $uid, string $address): ?InternalAddress {
+		$qb = $this->db->getQueryBuilder();
+		$select = $qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('user_id', $qb->createNamedParameter($uid)),
+				$qb->expr()->eq('address', $qb->createNamedParameter($address))
+			);
+		return $this->findEntity($select);
+	}
 }

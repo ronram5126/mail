@@ -252,7 +252,6 @@ import Message from './Message.vue'
 import MenuEnvelope from './MenuEnvelope.vue'
 import Moment from './Moment.vue'
 import { smartReply } from '../service/AiIntergrationsService.js'
-import { isInternal } from '../service/InternalAddressService.js'
 import { mailboxHasRights } from '../util/acl.js'
 import StarOutline from 'vue-material-design-icons/StarOutline.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
@@ -573,7 +572,7 @@ export default {
 			this.$nextTick(() => this.scrollToCurrentEnvelope())
 		}
 		if (this.$store.getters.getPreference('internal-addresses', 'false') === 'true') {
-			this.isInternal = await isInternal(this.envelope.from[0].email)
+			this.isInternal = this.$store.getters.isInternalAddress(this.envelope.from[0].email)
 		}
 		this.$checkInterval = setInterval(() => {
 			const { envelope } = this.$refs
@@ -903,7 +902,7 @@ export default {
 		}
 	}
 
-	.external{
+	.external {
 		color: var(--color-error);
 	}
 
