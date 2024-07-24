@@ -67,7 +67,6 @@ export default {
 
 	data() {
 		return {
-			list: [],
 			openDialog: false,
 			newAddress: '',
 			buttons: [
@@ -86,6 +85,9 @@ export default {
 		}
 	},
 	computed: {
+		list() {
+			return this.$store.getters.getInternalAddresses
+		},
 		sortedDomains() {
 			return sortByAddress(this.list.filter(a => a.type === 'domain'))
 		},
@@ -93,15 +95,11 @@ export default {
 			return sortByAddress(this.list.filter(a => a.type === 'individual'))
 		},
 	},
-	mounted() {
-		this.list = this.$store.getters.getInternalAddresses
-	},
 	methods: {
 		async removeInternalAddress(sender) {
 			// Remove the item immediately
-			this.list = this.list.filter(s => s.id !== sender.id)
 			try {
-				await this.$store.dispatch('removeInternalAddress', sender.id)
+				await this.$store.dispatch('removeInternalAddress', { id: sender.id, address: sender.address, type: sender.type })
 			} catch (error) {
 				logger.error(`Could not remove internal address ${sender.email}`, {
 					error,
@@ -109,8 +107,6 @@ export default {
 				showError(t('mail', 'Could not remove internal address {sender}', {
 					sender: sender.address,
 				}))
-				// Put the sender back
-				this.list.push(sender)
 			}
 		},
 		async addInternalAddress() {
@@ -120,7 +116,6 @@ export default {
 					address: this.newAddress,
 					type,
 				}).then(async () => {
-					this.list = await this.$store.getters.getInternalAddresses()
 					this.newAddress = ''
 					this.openDialog = false
 				})

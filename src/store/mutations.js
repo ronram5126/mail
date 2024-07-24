@@ -327,7 +327,7 @@ export default {
 		Vue.set(state.internalAddress, address.id, address)
 	},
 	removeInternalAddress(state, { addressId }) {
-		Vue.set(state.addInternalAddress, state.internalAddress.filter((address) => address.id !== addressId))
+		state.internalAddress = state.internalAddress.filter((address) => address.id !== addressId)
 	},
 	deleteTag(state, { tagId }) {
 		state.tagList = state.tagList.filter((id) => id !== tagId)

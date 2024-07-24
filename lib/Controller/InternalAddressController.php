@@ -65,19 +65,7 @@ class InternalAddressController extends Controller {
 
 		return JsonResponse::success();
 	}
-	/**
-	 * @NoAdminRequired
-	 * @param string $address
-	 * @return JsonResponse
-	 */
-	public function isInternal(string $address): JsonResponse {
-		$isInternal = $this->internalAddressService->isInternal(
-			$this->uid,
-			$address
-		);
 
-		return JsonResponse::success(['isInternal' => $isInternal]);
-	}
 	/**
 	 * @NoAdminRequired
 	 *

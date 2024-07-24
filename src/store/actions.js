@@ -1116,15 +1116,15 @@ export default {
 	async addInternalAddress({ commit }, { address, type }) {
 		return handleHttpAuthErrors(commit, async () => {
 			const internalAddress = await addInternalAddress(address, type)
-			commit('addInternalAddress', { internalAddress })
+			commit('addInternalAddress', internalAddress)
 			console.debug('internal address added')
 		})
 	},
-	async deleteIntenalAddress({ commit }, { id }) {
+	async removeInternalAddress({ commit }, { id, address, type }) {
 		return handleHttpAuthErrors(commit, async () => {
 			try {
-				await removeInternalAddress(id)
-				commit('removeInternalAddress', { id })
+				await removeInternalAddress(address, type)
+				commit('removeInternalAddress', { addressId: id })
 				console.debug('internal address removed')
 			} catch (error) {
 				console.error('could not delete internal address', error)
