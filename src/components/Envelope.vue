@@ -1022,9 +1022,7 @@ export default {
 	border: 1px solid transparent;
 	border-radius: var(--border-radius-pill);
 	position: relative;
-	margin: 9px 1px 0;
 	overflow: hidden;
-	left: 4px;
 }
 .list-item__wrapper:deep() {
 	list-style: none;
@@ -1034,7 +1032,7 @@ export default {
 }
 .icon-important.app-content-list-item-star:deep() {
 	position: absolute;
-	top: 14px;
+	top: 22px;
 	z-index: 1;
 }
 .app-content-list-item-star.favorite-icon-style {
