@@ -299,7 +299,7 @@
 				</ActionLink>
 			</template>
 		</template>
-		<template #extra>
+		<template #tags>
 			<div v-for="tag in tags"
 				:key="tag.id"
 				class="tag-group">
